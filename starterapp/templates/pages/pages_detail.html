@@ -1,0 +1,8 @@
+{% extends "../global/base_generic.html"%} {% block title %} {{page.title}} {% endblock %} {% block content %}
+
+<h3>{{page.title}}</h3>
+{% if page.feat_img %}<img class="img-fluid py-3" src="{{page.feat_img.url}}"/>
+    {% endif %}
+<p>{{page.body}}</p>
+</div>
+{% endblock %}

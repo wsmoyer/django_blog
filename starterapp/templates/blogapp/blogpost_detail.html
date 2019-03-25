@@ -1,0 +1,87 @@
+{% extends "../global/base_generic.html"%} {% block title %}{{post.title}}{% endblock %} 
+{% block content %}
+
+
+<button class="btn btn-dark text-white mb-3">
+    <a href="/">Go Back</a>
+</button>
+<nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="/">Home</a></li>
+          <li class="breadcrumb-item active"><a href="/categories/{{post.category_id}}">{{post.category}}</a></li>
+        </ol>
+      </nav>
+<h3>
+    {{ post.title }}</h3>
+    <h6 class="text-dark">{{post.created_at}}</h6>
+    {% if post.feat_img %}<img class="img-fluid pb-2 mb-2" src="{{post.feat_img.url}}"/>
+    {% endif %}
+    <p>{{post.body | safe }}</p>
+    </div>
+    <div class="col-md-3">{% include 'global/sidebar.html' %}</div>
+</div>
+<div class="row">{% if other_posts %}{% for posts in other_posts %}
+    
+    
+    <div class="col-md-3"><div class="card"> 
+            {% if posts.feat_img %}
+        <img class="card-img-top" src="{{posts.feat_img.url}}" alt="Card image cap">
+        {% endif %}
+        <div class="card-body"><a href="{{posts.id}}">{{posts.title}}</a> </div></div></div>{% endfor %}{% endif %}</div>
+<div class="row my-4">
+    {% if post_comment %}
+<h6><span class="badge badge-pill badge-primary p-2">{{ post_comment|length }} Comments</span></h6>
+</div>
+<div class="list-group mb-3">
+
+{% for comment in post_comment %}
+<a href="#!" class="list-group-item list-group-item-action flex-column align-items-start">
+    <div class="d-flex w-100 justify-content-between">
+        <small>{{comment.comment_author}}</small>
+
+        <small>{{comment.posted_at | timesince}} ago</small>
+    </div>
+    <p class="mb-1">{{comment.comment_body}}</p>
+  </a>
+{% endfor %}
+{% if user.is_authenticated %}
+<h4 class="mt-3">Post Comment</h4>
+<form class="mt-2" method="post">
+    {% csrf_token %}
+    {% for field in form %}
+    <div class="form-group">
+        {{ field.label_tag }}<br>
+
+    {{field}}
+    </div>
+    {% endfor %}
+    <input type="submit" value="Comment" class="btn btn-primary btn-block">
+</form>
+</div>
+{% else %}
+<p class="py-2">Please sign in to post comments.</p>
+{% endif %}
+</div>
+    {% else  %}
+<div class="col">
+    <p>No comments</p>
+    {% if user.is_authenticated %}
+<h4 class="mt-3">Post Comment</h4>
+<form class="mt-2" method="post">
+    {% csrf_token %}
+    {% for field in form %}
+    <div class="form-group">
+        {{ field.label_tag }}<br>
+
+    {{field}}
+    </div>
+    {% endfor %}
+    <input type="submit" value="Comment" class="btn btn-primary btn-block">
+</form>
+</div>
+</div>
+{% else %}
+<p class="py-2">Please sign in to post comments.</p>
+{% endif %}
+    {% endif %}
+{% endblock %}

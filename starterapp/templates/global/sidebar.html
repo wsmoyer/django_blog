@@ -1,0 +1,19 @@
+{% load sidebar %}
+{% category_sidebar as category_list %}
+
+{% if category_list %}
+<h4>Categories</h4>
+<ul class="list-group">
+    {% for category in category_list %}
+
+    <li class="list-group-item">
+
+        <a href="/categories/{{category.id}}">{{ category.category_name }}</a>
+    </li>
+</ul>
+
+
+    {% endfor %}
+{% else %}
+<p>No categories are available.</p>
+{% endif %}

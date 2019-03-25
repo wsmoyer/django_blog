@@ -1,0 +1,38 @@
+{% load navbar %}
+{% navbar as page_list %}
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <a class="navbar-brand" href="/">My Blog</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+            aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                {% if page_list %}
+
+            <ul class="navbar-nav mr-auto">
+                    {% for page in page_list %}
+   
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'pages' page.slug %}">{{page.title}}
+                    </a>
+                </li>
+                {% endfor %}
+
+            </ul>
+            <ul class="navbar-nav ml-auto">
+                    {% if user.is_authenticated %}
+                    <li class="nav-item" ><a class="nav-link" href="/dashboard">Dashboard</a></li>
+                    <li class="nav-item" ><a class="nav-link" href="accounts/logout/">Logout</a></li>
+                 
+                    {% else %}
+                    <li class="nav-item" ><a class="nav-link" href="accounts/login/">Login</a></li>
+                    <li class="nav-item" ><a class="nav-link" href="accounts/signup/">Register</a></li>
+                    
+                    {% endif %}
+               
+            </ul>
+        </div>
+    </nav>
+    {% endif %}

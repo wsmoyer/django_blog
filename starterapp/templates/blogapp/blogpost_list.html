@@ -1,0 +1,93 @@
+{% extends "../global/base_generic.html"%} {% if blog_posts %} {% block content %}
+
+{% if user.is_authenticated %}
+    <p>Welcome, {{ user.username }}. Thanks for logging in.</p>
+{% else %}
+    <p>Welcome, new user. Please log in.</p>
+{% endif %}
+<div class="row my-3">{% if featured %}<div class="col">{% for feature in featured  %}
+    {% if feature.feat_img %}
+    <img src="{{feature.feat_img.url}}" alt="" class="img-fluid" />
+   {% endif %}
+  <h2 class="text-dark">{{feature.title}}</h2>
+  <p>By: {{feature.author}}
+  {% endfor %}{% endif %}  </div></div>
+<div class="row"> {% for post in blog_posts %}
+<div class="col-md-4">
+<div class="card text-white bg-info mb-3">
+    {% if post.feat_img %}<img class="card-img-top" src="{{post.feat_img.url}}"/>
+    {% endif %}
+    <div class="card-body">
+        
+      <h4 class="card-title">  <a href="/posts/{{post.id}}">
+        {{ post.title }}</a></h4>
+        <small>{{post.created_at | date:'M d Y'}}</small>
+<small>{{post.category}}</small>
+      <p class="card-text">
+        {{ post.body|truncatewords:"70" | safe }} 
+      </p>
+    </div>
+  
+  </div>
+  </div>
+{% endfor %}
+
+      </div>
+      </div>
+      <div class="col-md-3">{% include 'global/sidebar.html' %}</div>
+      <nav aria-label="Page navigation example">
+        <ul class="pagination">
+                {% if blog_posts.has_previous %}
+          <li class="page-item">
+            <a class="page-link" href="?page={{ blog_posts.previous_page_number }}" aria-label="Previous">
+              <span aria-hidden="true">«</span>
+              <span class="sr-only">Previous</span>
+            </a>
+          </li>
+          {% endif %}
+          {% for i in blog_posts.paginator.page_range %}
+          {% if listings.number == i %}
+          <li class="page-item active">
+            <a class="page-link" href="?page={{i}}">{{i}}</a>
+          </li>
+          {% else %}
+          <li class="page-item">
+              <a class="page-link" href="?page={{i}}">{{i}}</a>
+            </li>
+          {% endif %}
+          {% endfor %}
+            
+    
+          {% if blog_posts.has_next %}
+
+          <li class="page-item">
+            <a class="page-link" href="?page={{ blog_posts.next_page_number }}" aria-label="Next">
+              <span aria-hidden="true">»</span>
+              <span class="sr-only">Next</span>
+            </a>
+          </li>
+          {% endif %}
+
+        </ul>
+      </nav>
+{% endblock %} {% else %}
+<p>No posts are available.</p>
+{% endif %}
+
+
+
+<!-- {% if category_list %} {% block sidebar %}
+<ul class="list-group ">
+    {% for category in category_list %}
+
+    <li class="text-dark list-group-item ">
+
+        <a href="/categories/{{category.id}} ">{{ category.category_name }}</a>
+    </li>
+
+
+    {% endfor %}
+</ul>
+{% endblock %} {% else %}
+<p>No categories are available.</p>
+{% endif %} -->

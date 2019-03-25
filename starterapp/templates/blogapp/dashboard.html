@@ -1,0 +1,40 @@
+{% extends "../global/base_generic.html"%}
+ {% block title %}Dashboard{% endblock %} 
+ {% block content %}
+ {% if user.is_authenticated %}
+ <p>Welcome, {{ user.username }}. Thanks for logging in.</p>
+{% else %}
+ <p>Welcome, new user. Please log in.</p>
+{% endif %}
+<a href="/accounts/post/add" class="btn btn-primary mb-2">Add New Post</a>
+ {% if users_posts %}
+ <table class="table table-reflow">
+    <thead class="thead-dark">
+      <tr>
+        <th>#</th>
+        <th>Post Title</th>
+        <th>Created At</th>
+        <th>Edit Post</th>
+        <th>Delete Post</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for post in users_posts %}
+      <tr>
+        <th scope="row">{{post.id}}</th>
+        <td>{{post.title}}</td>
+        <td>{{post.created_at}}</td>
+        <td><a href="/accounts/post/edit/{{post.id}}" class="btn btn-primary">Edit</a></td>
+        <td><a href="/accounts/post/delete/{{post.id}}" class="btn btn-danger">Delete</a></td>
+
+      </tr>
+    
+{% endfor %}
+</tbody>
+</table>
+</div>
+{% else %}
+<p>No posts by this user.</p>
+{% endif %}
+{% endblock %}
+

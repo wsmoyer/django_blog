@@ -1,0 +1,23 @@
+{% extends "../global/base_generic.html"%} {% block title %}{{category.category_name }}{% endblock %}
+{% block content %}
+<button class="btn btn-dark text-white">
+    <a href="/">Go Back</a>
+</button>
+<h1>
+    {{ category.category_name }}</h1>
+{% if category_posts_list %} {% for post in category_posts_list %}
+
+<h3>
+    <a href="/posts/{{post.id}}">
+        {{ post.title }}</a>
+</h3>
+</a>
+<small>{{post.created_at}}</small>
+<p class="py-2">{{ post.body|truncatewords:"100" }}</p>
+
+{% endfor %}{% else %}
+<p>No posts are available.</p>
+{% endif %}
+
+</div>
+{% endblock %}
